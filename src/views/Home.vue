@@ -8,6 +8,7 @@
       </li>
     </ul>
   </div>
+  <button @click="add">Add</button>
 </template>
 
 <script>
@@ -18,6 +19,10 @@ export default {
   methods: {
     deleteElement: function (index) {
       this.$store.state.todos.splice(index, 1);
+    },
+    add: function () {
+      let newvalue = prompt("add new value");
+      this.$store.state.todos.push(newvalue);
     },
     edit: function (index) {
       let response = prompt("new value");
