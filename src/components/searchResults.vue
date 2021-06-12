@@ -1,6 +1,9 @@
 <template>
-  <img src="result.thumbnails.default.url" />
-  {{ result }}
+  <div>
+    <img :src="result.thumbnails.default.url" />
+    {{ result.title }}
+    <button @click="download(result.link)">Download</button>
+  </div>
 </template>
 <script>
 export default {
