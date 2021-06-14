@@ -7,11 +7,15 @@
         <button @click="deleteElement(index)">delete</button>
       </li>
     </ul>
+    <play-audio
+      url="http://localhost:3000/media/fc27e65e-c73c-4757-bf00-87d3462782ab.mp3"
+    ></play-audio>
   </div>
   <button @click="add">Add</button>
 </template>
 
 <script>
+import PlayAudio from "../components/PlayAudio.vue";
 // @ is an alias to /src
 
 export default {
@@ -32,6 +36,6 @@ export default {
       this.$store.state.todos[index] = value;
     },
   },
-  components: {},
+  components: { PlayAudio },
 };
 </script>

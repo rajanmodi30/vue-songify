@@ -13,10 +13,10 @@ export default {
   searchSongResults(searchParam) {
     return apiClient.get("/search/" + searchParam);
   },
-  download(url) {
-    return apiClient.get(`downloads?url=${url}`);
+  download(url, name) {
+    return apiClient.get(`downloads?url=${url}&name=${name}`);
   },
-  mySongsList(page) {
-    return apiClient.get(`listings?page=${page}`);
+  mySongsList() {
+    return apiClient.get(`available/songs`);
   },
 };

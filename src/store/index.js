@@ -17,6 +17,9 @@ export default createStore({
       });
       console.log("updated", state.downloadedResults);
     },
+    updateAvailableSongsList(state, payload) {
+      state.downloadedResults = payload.response;
+    },
   },
   actions: {
     search({ commit }, name) {
@@ -30,13 +33,23 @@ export default createStore({
       let url = params.link;
       let name = params.name;
       searchManager
-        .download(url)
+        .download(url, name)
         .then((response) => {
           commit("updateDownloadedResults", {
             result: response.data.response,
             name: name,
           });
           alert("downloaded song");
+        })
+        .catch((err) => console.log(err));
+    },
+    availableSongs({ commit }) {
+      searchManager
+        .mySongsList()
+        .then((response) => {
+          commit("updateAvailableSongsList", {
+            response: response.data.songs,
+          });
         })
         .catch((err) => console.log(err));
     },

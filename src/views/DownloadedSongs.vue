@@ -9,8 +9,15 @@
 
 <script>
 import Downloadedfile from "../components/Downloadedfile.vue";
+import { mapActions } from "vuex";
 export default {
   components: { Downloadedfile },
   name: "DownloadedSongs",
+  created() {
+    this.availableSongs();
+  },
+  methods: {
+    ...mapActions(["availableSongs"]),
+  },
 };
 </script>
