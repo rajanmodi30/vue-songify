@@ -1,6 +1,6 @@
 <template>
   <downloadedfile
-    v-for="(file, index) in this.$store.state.downloadedResults"
+    v-for="(file, index) in downloadedResults"
     :key="index"
     :file="file"
     :playAudio="false"
@@ -9,15 +9,18 @@
 
 <script>
 import Downloadedfile from "../components/Downloadedfile.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   components: { Downloadedfile },
   name: "DownloadedSongs",
   created() {
     this.availableSongs();
   },
+  computed: {
+    ...mapGetters("music", ["downloadedResults"]),
+  },
   methods: {
-    ...mapActions(["availableSongs"]),
+    ...mapActions("music", ["availableSongs"]),
   },
 };
 </script>
