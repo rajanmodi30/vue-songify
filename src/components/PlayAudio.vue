@@ -14,8 +14,10 @@ export default {
     ...mapGetters("music", ["defaultSong"]),
   },
   watch: {
+    /**
+     * whenever a new song arrives load and play it
+     */
     defaultSong(newValue, oldValue) {
-      console.log(oldValue, newValue, this.$refs.audio);
       if (oldValue) {
         this.$refs.audio.pause();
         this.$refs.audio.load();
