@@ -1,19 +1,27 @@
 <template>
-  <audio controls>
-    <source :src="actualUrl" />
-    Your browser does not support the video tag.
-  </audio>
+  <div>
+    <audio controls v-if="defaultSong" ref="audio">
+      <source :src="defaultSong.path" />
+      Your browser does not support the audio tag.
+    </audio>
+  </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "PlayAudio",
-  data() {
-    return {
-      actualUrl: `http://localhost:3000/${this.url}`,
-    };
+  computed: {
+    ...mapGetters("music", ["defaultSong"]),
   },
-  props: {
-    url: String,
+  watch: {
+    defaultSong(newValue, oldValue) {
+      console.log(oldValue, newValue, this.$refs.audio);
+      if (oldValue) {
+        this.$refs.audio.pause();
+        this.$refs.audio.load();
+        this.$refs.audio.play();
+      }
+    },
   },
 };
 </script>

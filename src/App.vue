@@ -5,7 +5,8 @@
     <router-link to="/search">Search</router-link>|
     <router-link :to="{ name: 'downloaded' }">Downloaded</router-link>
   </div>
-  <router-view />
+  <router-view></router-view>
+  <play-audio></play-audio>
 </template>
 
 <style>
@@ -30,3 +31,10 @@
   color: #42b983;
 }
 </style>
+
+<script>
+import PlayAudio from "./components/PlayAudio.vue";
+export default {
+  components: { PlayAudio },
+};
+</script>

@@ -3,7 +3,6 @@
     v-for="(file, index) in downloadedResults"
     :key="index"
     :file="file"
-    :playAudio="false"
   ></downloadedfile>
 </template>
 

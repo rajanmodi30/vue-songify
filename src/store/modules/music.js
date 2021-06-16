@@ -7,11 +7,13 @@ import searchManager from "../../services/searchManager.js";
 const state = () => ({
   searchResults: [],
   downloadedResults: [],
+  currentSong: null,
 });
 
 const getters = {
   searchResults: (state) => state.searchResults,
   downloadedResults: (state) => state.downloadedResults,
+  defaultSong: (state) => state.currentSong,
 };
 /**
  * actions for the state
@@ -48,6 +50,12 @@ const actions = {
       })
       .catch((err) => console.log(err));
   },
+  playSong({ commit }, params) {
+    commit("updateCurrentSong", {
+      name: params.name,
+      path: `http://localhost:3000/${params.path}`,
+    });
+  },
 };
 
 const mutations = {
@@ -63,6 +71,12 @@ const mutations = {
   },
   updateAvailableSongsList(state, payload) {
     state.downloadedResults = payload.response;
+  },
+  updateCurrentSong(state, payload) {
+    state.currentSong = {
+      name: payload.name,
+      path: payload.path,
+    };
   },
 };
 
