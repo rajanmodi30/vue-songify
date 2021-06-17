@@ -1,7 +1,7 @@
 <template>
   <downloadedfile
-    v-for="(file, index) in downloadedResults"
-    :key="index"
+    v-for="file in downloadedResults"
+    :key="file._id"
     :file="file"
   ></downloadedfile>
 </template>
