@@ -31,7 +31,9 @@ export default {
         this.$refs.audio.pause();
         this.$refs.audio.load();
       }
-      this.$refs.audio.play();
+      setTimeout(() => {
+        this.$refs.audio.play();
+      }, 500);
     },
   },
 };

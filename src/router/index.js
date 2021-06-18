@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import SearchMusic from "../views/SearchMusic.vue";
 import DownloadedSongs from "../views/DownloadedSongs.vue";
+import CurrentPlayingSongsList from "../views/CurrentPlayingSongsList.vue";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: "/downloaded",
     name: "downloaded",
     component: DownloadedSongs,
+  },
+  {
+    path: "/playlist",
+    name: "playlist",
+    component: CurrentPlayingSongsList,
   },
   {
     path: "/about",

@@ -3,7 +3,8 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>|
     <router-link to="/search">Search</router-link>|
-    <router-link :to="{ name: 'downloaded' }">Downloaded</router-link>
+    <router-link :to="{ name: 'downloaded' }">Downloaded</router-link>|
+    <router-link :to="{ name: 'playlist' }">Currently Playing</router-link>
   </div>
   <router-view></router-view>
   <play-audio></play-audio>

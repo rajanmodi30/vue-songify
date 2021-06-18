@@ -58,6 +58,7 @@ const actions = {
   },
   playSong({ commit }, params) {
     commit("emptyCurrentPlayList");
+    console.log(params);
     commit("updateCurrentSong", {
       name: params.name,
       path: `http://localhost:3000/${params.path}`,
