@@ -1,7 +1,9 @@
 <template>
   <div>
-    <label>Search Music</label>
-    <input v-model="name" @keyup.enter="searchSong" />
+    <form @keyup.enter="searchSong" v-on:submit.prevent="searchSong">
+      <input v-model="name" />
+      <button type="submit">Search</button>
+    </form>
   </div>
   <div v-for="(result, index) in searchResults" :key="index">
     <img :src="result.thumbnails.default.url" />
