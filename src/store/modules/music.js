@@ -1,5 +1,5 @@
 import searchManager from "../../services/searchManager.js";
-
+const serverUrl = process.env.VUE_APP_NODE_SERVER_URL;
 /**
  * the state
  * @returns
@@ -89,7 +89,7 @@ const actions = {
 
     commit("updateCurrentSong", {
       name: nextSong.name,
-      path: `http://192.168.0.102:3000/${nextSong.path}`,
+      path: `${serverUrl}/${nextSong.path}`,
       _id: nextSong._id,
     });
   },
@@ -113,7 +113,7 @@ const actions = {
     commit("updateCurrentPlayList", { updatedPlaylist: newPlaylist });
     commit("updateCurrentSong", {
       name: song.name,
-      path: `http://localhost:3000/${song.path}`,
+      path: `${serverUrl}/${song.path}`,
       _id: song._id,
     });
   },
