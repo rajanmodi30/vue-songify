@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <audio controls v-if="defaultSong" ref="audio" v-on:ended="songEnded">
+  <div class="fixed" v-if="defaultSong">
+    <audio controls ref="audio" v-on:ended="songEnded">
       <source :src="defaultSong.path" />
       Your browser does not support the audio tag.
     </audio>
@@ -38,3 +38,14 @@ export default {
   },
 };
 </script>
+<style scoped>
+div.fixed {
+  border-radius: 25px;
+  border: 5px solid #42b983;
+  position: absolute;
+  height: 50px;
+  bottom: 200px;
+  left: 50%;
+  margin-left: -150px;
+}
+</style>

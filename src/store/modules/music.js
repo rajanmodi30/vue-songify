@@ -20,6 +20,12 @@ const getters = {
   downloadResultsExcept: (state) => (id) => {
     return state.downloadedResults.filter((song) => song._id != id);
   },
+  removeSongFromCurrentPlaylist: (state) => (id) => {
+    return state.currentPlayingList.filter((song) => song._id != id);
+  },
+  getSongIndexInCurrentArray: (state) => (id) => {
+    return state.currentPlayingList.findIndex((song) => song._id == id);
+  },
 };
 /**
  * actions for the state
@@ -61,7 +67,7 @@ const actions = {
     console.log(params);
     commit("updateCurrentSong", {
       name: params.name,
-      path: `http://localhost:3000/${params.path}`,
+      path: `http://192.168.0.102:3000/${params.path}`,
       _id: params._id,
     });
   },
@@ -83,8 +89,48 @@ const actions = {
 
     commit("updateCurrentSong", {
       name: nextSong.name,
-      path: `http://localhost:3000/${nextSong.path}`,
+      path: `http://192.168.0.102:3000/${nextSong.path}`,
       _id: nextSong._id,
+    });
+  },
+  removeSongFromPlaylist({ commit, getters }, song) {
+    let updatedPlaylist = getters.removeSongFromCurrentPlaylist(song._id);
+    console.log("updated list", updatedPlaylist);
+    commit("updateCurrentPlayList", {
+      updatedPlaylist: updatedPlaylist,
+    });
+  },
+  addToPlayList({ commit }, song) {
+    commit("addNewSongToCurrentPlaylist", {
+      song: song,
+    });
+  },
+  skipTo({ commit, getters }, song) {
+    let id = song._id;
+    let songIndex = getters.getSongIndexInCurrentArray(id);
+    let newPlaylist = getters.currentPlayList.slice(songIndex);
+    console.log("newPlaylist", newPlaylist, song);
+    commit("updateCurrentPlayList", { updatedPlaylist: newPlaylist });
+    commit("updateCurrentSong", {
+      name: song.name,
+      path: `http://localhost:3000/${song.path}`,
+      _id: song._id,
+    });
+  },
+  deleteSong({ commit, getters }, song) {
+    let id = song._id;
+    let updatedDownloadedSongs = getters.downloadResultsExcept(id);
+    searchManager
+      .deleteSong(id)
+      .then((response) => {
+        console.log("delete response", response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log("updatedDownloadedSongs", updatedDownloadedSongs);
+    commit("updateAvailableSongsList", {
+      response: updatedDownloadedSongs,
     });
   },
 };
@@ -100,6 +146,7 @@ const mutations = {
     });
     console.log("updated", state.downloadedResults);
   },
+
   updateAvailableSongsList(state, payload) {
     state.downloadedResults = payload.response;
   },
@@ -121,6 +168,9 @@ const mutations = {
   },
   emptyCurrentPlayList(state) {
     state.currentPlayingList = [];
+  },
+  updateCurrentPlayList(state, payload) {
+    state.currentPlayingList = payload.updatedPlaylist;
   },
 };
 

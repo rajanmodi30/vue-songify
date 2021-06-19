@@ -2,6 +2,8 @@
   <div>
     {{ file.name }}
     <button @click="openPlayer">Play</button>
+    <button @click="addToPlayList(file)">Add To Playlist</button>
+    <button @click="deleteSong(file)" style="color: red">Delete</button>
   </div>
 </template>
 <script>
@@ -16,7 +18,7 @@ export default {
     openPlayer() {
       this.playSong(this.file);
     },
-    ...mapActions("music", ["playSong"]),
+    ...mapActions("music", ["playSong", "addToPlayList", "deleteSong"]),
   },
 };
 </script>

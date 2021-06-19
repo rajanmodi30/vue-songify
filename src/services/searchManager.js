@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://192.168.0.102:3000",
   withCredentials: false,
   headers: {
     Accept: "application/json",
@@ -18,5 +18,8 @@ export default {
   },
   mySongsList() {
     return apiClient.get(`available/songs`);
+  },
+  deleteSong(id) {
+    return apiClient.get(`delete/${id}`);
   },
 };
