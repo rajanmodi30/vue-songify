@@ -67,7 +67,7 @@ const actions = {
     console.log(params);
     commit("updateCurrentSong", {
       name: params.name,
-      path: `http://192.168.0.102:3000/${params.path}`,
+      path: `${serverUrl}/${params.path}`,
       _id: params._id,
     });
   },
