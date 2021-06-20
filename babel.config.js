@@ -44,7 +44,4 @@ module.exports = {
       },
     ],
   ],
-  pwa: {
-    name: "Songify", // <---- this is PWA name
-  },
 };
