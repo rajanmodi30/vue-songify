@@ -1,4 +1,4 @@
-import { createRouter } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import SearchMusic from "../views/SearchMusic.vue";
 import DownloadedSongs from "../views/DownloadedSongs.vue";
 import CurrentPlayingSongsList from "../views/CurrentPlayingSongsList.vue";
@@ -23,9 +23,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  // history: createWebHistory(process.env.BASE_URL),
-  mode: "history",
-
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 
