@@ -28,7 +28,7 @@ module.exports = {
   plugins: plugins,
   presets: [
     [
-      "@vue/app",
+      "@vue/cli-plugin-babel/preset",
       {
         modules: false,
         targets: {
