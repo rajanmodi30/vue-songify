@@ -65,10 +65,18 @@ const actions = {
   playSong({ commit }, params) {
     commit("emptyCurrentPlayList");
     console.log(params);
+    let song = {
+      name: params.name,
+      path: params.path,
+      _id: params._id,
+    };
     commit("updateCurrentSong", {
       name: params.name,
       path: `${serverUrl}/${params.path}`,
       _id: params._id,
+    });
+    commit("addNewSongToCurrentPlaylist", {
+      song: song,
     });
   },
   goToNextSong({ commit, getters }) {
@@ -164,7 +172,6 @@ const mutations = {
   addNewSongToCurrentPlaylist(state, payload) {
     //adds a new song
     state.currentPlayingList.push(payload.song);
-    console.log(state.currentPlayingList);
   },
   emptyCurrentPlayList(state) {
     state.currentPlayingList = [];
