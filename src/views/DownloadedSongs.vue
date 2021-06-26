@@ -1,5 +1,4 @@
 <template>
-  Welcome
   <downloadedfile
     v-for="file in downloadedResults"
     :key="file._id"
