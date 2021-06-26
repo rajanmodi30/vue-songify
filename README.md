@@ -1,4 +1,6 @@
-# todo-list
+# Songify Vue App
+
+[![Deploying To Server](https://github.com/rajanmodi30/vue-songify/actions/workflows/main.yml/badge.svg)](https://github.com/rajanmodi30/vue-songify/actions/workflows/main.yml)
 
 ## Project setup
 ```
