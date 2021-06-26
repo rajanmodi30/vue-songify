@@ -1,9 +1,11 @@
 <template>
   <div class="fixed" v-if="defaultSong">
+    <button ref="previous">Previous</button>
     <audio controls ref="audio" v-on:ended="songEnded">
       <source :src="defaultSong.path" />
       Your browser does not support the audio tag.
     </audio>
+    <button @click="goToNextSong" ref="next">Next</button>
   </div>
 </template>
 <script>
