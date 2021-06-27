@@ -19,7 +19,14 @@ const getters = {
   nextSongInTheList: (state) => state.currentPlayingList[0],
   currentPlayList: (state) => state.currentPlayingList,
   downloadResultsExcept: (state) => (id) => {
-    return state.downloadedResults.filter((song) => song._id != id);
+    let songIndex = state.downloadedResults.findIndex((song) => song._id == id);
+    let firstPart = state.downloadedResults.filter(
+      (song, index) => index > songIndex
+    );
+    let secondPart = state.downloadedResults.filter(
+      (song, index) => index < songIndex
+    );
+    return firstPart.concat(secondPart);
   },
   removeSongFromCurrentPlaylist: (state) => (id) => {
     return state.currentPlayingList.filter((song) => song._id != id);
@@ -94,6 +101,7 @@ const actions = {
     if (getters.currentPlayList.length == 0) {
       let toAddSongs = getters.downloadResultsExcept(currentlyEndedSong._id);
       //updating the list
+      console.log(toAddSongs);
       toAddSongs.forEach((song) => {
         commit("addNewSongToCurrentPlaylist", {
           song: song,
