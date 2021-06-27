@@ -3,7 +3,7 @@
     {{ file.name }}
     <button @click="openPlayer">Play</button>
     <button @click="addToPlayList(file)">Add To Playlist</button>
-    <button @click="deleteSong(file)" style="color: red">Delete</button>
+    <button @click="confirmSongDelete(file)" style="color: red">Delete</button>
   </div>
 </template>
 <script>
@@ -17,6 +17,13 @@ export default {
   methods: {
     openPlayer() {
       this.playSong(this.file);
+    },
+    confirmSongDelete(file) {
+      let answer = confirm("are you sure you want to delete ?");
+      console.log(answer);
+      if (answer) {
+        this.deleteSong(file);
+      }
     },
     ...mapActions("music", ["playSong", "addToPlayList", "deleteSong"]),
   },
