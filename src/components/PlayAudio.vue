@@ -1,6 +1,6 @@
 <template>
   <div class="fixed" v-if="defaultSong">
-    <button ref="previous">Previous</button>
+    <button @click="goToPreviousSong" ref="previous">Previous</button>
     <audio controls ref="audio" v-on:ended="songEnded">
       <source :src="defaultSong.path" />
       Your browser does not support the audio tag.
@@ -19,7 +19,7 @@ export default {
     /**
      *  on song end
      */
-    ...mapActions("music", ["goToNextSong"]),
+    ...mapActions("music", ["goToNextSong", "goToPreviousSong"]),
     songEnded() {
       this.goToNextSong();
     },

@@ -9,6 +9,7 @@ const state = () => ({
   downloadedResults: [],
   currentSong: null,
   currentPlayingList: [],
+  previousSongsList: [],
 });
 
 const getters = {
@@ -25,6 +26,12 @@ const getters = {
   },
   getSongIndexInCurrentArray: (state) => (id) => {
     return state.currentPlayingList.findIndex((song) => song._id == id);
+  },
+  getSongIndexInPreviousSongArray: (state) => (id) => {
+    return state.previousSongsList.findIndex((song) => (song._id = id));
+  },
+  getLastSongInPreviousSong: (state) => {
+    return state.previousSongsList[state.previousSongsList.length - 1];
   },
 };
 /**
@@ -81,7 +88,8 @@ const actions = {
   },
   goToNextSong({ commit, getters }) {
     let currentlyEndedSong = getters.defaultSong;
-    commit("shiftFirstSongFromCurrentPlaylist", currentlyEndedSong);
+    commit("shiftFirstSongFromCurrentPlaylist");
+    commit("addSongToPrevious", { song: currentlyEndedSong });
 
     if (getters.currentPlayList.length == 0) {
       let toAddSongs = getters.downloadResultsExcept(currentlyEndedSong._id);
@@ -100,6 +108,20 @@ const actions = {
       path: `${serverUrl}/${nextSong.path}`,
       _id: nextSong._id,
     });
+  },
+  goToPreviousSong({ commit, getters }) {
+    let lastSong = getters.getLastSongInPreviousSong;
+    console.log("lastSong", lastSong, lastSong.name);
+    commit("addSongAtStartOfCurrentPlayingList", {
+      song: lastSong,
+    });
+
+    commit("updateCurrentSong", {
+      name: lastSong.name,
+      path: lastSong.path,
+      _id: lastSong._id,
+    });
+    commit("popSongFromPrevious");
   },
   removeSongFromPlaylist({ commit, getters }, song) {
     let updatedPlaylist = getters.removeSongFromCurrentPlaylist(song._id);
@@ -178,6 +200,16 @@ const mutations = {
   },
   updateCurrentPlayList(state, payload) {
     state.currentPlayingList = payload.updatedPlaylist;
+  },
+  popSongFromPrevious(state) {
+    state.previousSongsList.pop();
+  },
+  addSongToPrevious(state, payload) {
+    state.previousSongsList.push(payload.song);
+    console.log("previous list", state.previousSongsList);
+  },
+  addSongAtStartOfCurrentPlayingList(state, payload) {
+    state.currentPlayingList.unshift(payload.song);
   },
 };
 
