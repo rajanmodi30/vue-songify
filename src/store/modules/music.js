@@ -10,6 +10,8 @@ const state = () => ({
   currentSong: null,
   currentPlayingList: [],
   previousSongsList: [],
+  shuffleType: "repeat",
+  shuffleTypes: ["repeat", "repeatCurrent", "randomShuffle", "noRepeat"],
 });
 
 const getters = {
@@ -18,6 +20,7 @@ const getters = {
   defaultSong: (state) => state.currentSong,
   nextSongInTheList: (state) => state.currentPlayingList[0],
   currentPlayList: (state) => state.currentPlayingList,
+  currentShuffleType: (state) => state.shuffleType,
   downloadResultsExcept: (state) => (id) => {
     let songIndex = state.downloadedResults.findIndex((song) => song._id == id);
     let firstPart = state.downloadedResults.filter(
@@ -39,6 +42,9 @@ const getters = {
   },
   getLastSongInPreviousSong: (state) => {
     return state.previousSongsList[state.previousSongsList.length - 1];
+  },
+  getServerUrl: () => {
+    return serverUrl;
   },
 };
 /**
@@ -86,7 +92,7 @@ const actions = {
     };
     commit("updateCurrentSong", {
       name: params.name,
-      path: `${serverUrl}/${params.path}`,
+      path: params.path,
       _id: params._id,
     });
     commit("addNewSongToCurrentPlaylist", {
@@ -97,11 +103,20 @@ const actions = {
     let currentlyEndedSong = getters.defaultSong;
     commit("shiftFirstSongFromCurrentPlaylist");
     commit("addSongToPrevious", { song: currentlyEndedSong });
+    let toAddSongs = [];
 
     if (getters.currentPlayList.length == 0) {
-      let toAddSongs = getters.downloadResultsExcept(currentlyEndedSong._id);
       //updating the list
-      console.log(toAddSongs);
+      if (getters.currentShuffleType == "noRepeat") {
+        //if nothing to repeat then end
+        return 1;
+      } else if (getters.currentShuffleType == "randomShuffle") {
+        //do random stuff
+      } else if (getters.currentShuffleType == "repeatCurrent") {
+        toAddSongs.push(currentlyEndedSong);
+      } else {
+        toAddSongs = getters.downloadResultsExcept(currentlyEndedSong._id);
+      }
       toAddSongs.forEach((song) => {
         commit("addNewSongToCurrentPlaylist", {
           song: song,
@@ -110,12 +125,16 @@ const actions = {
     }
 
     let nextSong = getters.nextSongInTheList;
+    console.log(toAddSongs, nextSong, getters.currentShuffleType);
 
     commit("updateCurrentSong", {
       name: nextSong.name,
-      path: `${serverUrl}/${nextSong.path}`,
+      path: nextSong.path,
       _id: nextSong._id,
     });
+  },
+  changeShuffle({ commit }, shuffleType) {
+    commit("updateCurrentShuffleType", { shuffleType: shuffleType });
   },
   goToPreviousSong({ commit, getters }) {
     let lastSong = getters.getLastSongInPreviousSong;
@@ -151,7 +170,7 @@ const actions = {
     commit("updateCurrentPlayList", { updatedPlaylist: newPlaylist });
     commit("updateCurrentSong", {
       name: song.name,
-      path: `${serverUrl}/${song.path}`,
+      path: song.path,
       _id: song._id,
     });
   },
@@ -218,6 +237,9 @@ const mutations = {
   },
   addSongAtStartOfCurrentPlayingList(state, payload) {
     state.currentPlayingList.unshift(payload.song);
+  },
+  updateCurrentShuffleType(state, payload) {
+    state.shuffleType = payload.shuffleType;
   },
 };
 

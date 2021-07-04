@@ -2,24 +2,48 @@
   <div class="fixed" v-if="defaultSong">
     <button @click="goToPreviousSong" ref="previous">Previous</button>
     <audio controls ref="audio" v-on:ended="songEnded">
-      <source :src="defaultSong.path" />
+      <source :src="getUrlWithServer" />
       Your browser does not support the audio tag.
     </audio>
     <button @click="goToNextSong" ref="next">Next</button>
+    <select v-model="selectedShuffleTye">
+      <option
+        v-for="(shuffleType, index) in shuffleTypes"
+        :key="index"
+        :value="shuffleType"
+        selected
+      >
+        {{ shuffleType }}
+      </option>
+    </select>
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 export default {
   name: "PlayAudio",
+  data() {
+    return {
+      selectedShuffleTye: "repeat",
+    };
+  },
   computed: {
-    ...mapGetters("music", ["defaultSong"]),
+    getUrlWithServer() {
+      return `${this.getServerUrl}/${this.defaultSong.path}`;
+    },
+    ...mapGetters("music", ["defaultSong", "getServerUrl"]),
+    ...mapState("music", ["shuffleTypes"]),
   },
   methods: {
     /**
      *  on song end
      */
-    ...mapActions("music", ["goToNextSong", "goToPreviousSong"]),
+
+    ...mapActions("music", [
+      "goToNextSong",
+      "goToPreviousSong",
+      "changeShuffle",
+    ]),
     songEnded() {
       this.goToNextSong();
     },
@@ -36,6 +60,12 @@ export default {
       setTimeout(() => {
         this.$refs.audio.play();
       }, 500);
+    },
+    /**
+     *  whenever a shuffle type is changed
+     */
+    selectedShuffleTye(newValue) {
+      this.changeShuffle(newValue);
     },
   },
 };
