@@ -114,6 +114,7 @@ const actions = {
         //do random stuff
       } else if (getters.currentShuffleType == "repeatCurrent") {
         toAddSongs.push(currentlyEndedSong);
+        commit("emptyPreviousSongsList");
       } else {
         toAddSongs = getters.downloadResultsExcept(currentlyEndedSong._id);
       }
@@ -240,6 +241,9 @@ const mutations = {
   },
   updateCurrentShuffleType(state, payload) {
     state.shuffleType = payload.shuffleType;
+  },
+  emptyPreviousSongsList() {
+    state.previousSongsList = [];
   },
 };
 
