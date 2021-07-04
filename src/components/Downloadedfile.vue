@@ -20,7 +20,6 @@ export default {
     },
     confirmSongDelete(file) {
       let answer = confirm("are you sure you want to delete ?");
-      console.log(answer);
       if (answer) {
         this.deleteSong(file);
       }
