@@ -15,6 +15,7 @@ export default {
   name: "DownloadedSongs",
   created() {
     this.availableSongs();
+    console.log("okkk");
   },
 
   computed: {
