@@ -1,5 +1,5 @@
 <template>
-  <button @click="openPick">Open Picker</button>
+  <button @click="openPick()">Open Picker</button>
   <downloadedfile
     v-for="file in downloadedResults"
     :key="file._id"
