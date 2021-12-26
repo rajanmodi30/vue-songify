@@ -1,4 +1,5 @@
 <template>
+  <button @click="openPick">Open Picker</button>
   <downloadedfile
     v-for="file in downloadedResults"
     :key="file._id"
@@ -15,11 +16,16 @@ export default {
   created() {
     this.availableSongs();
   },
+
   computed: {
     ...mapGetters("music", ["downloadedResults"]),
   },
   methods: {
     ...mapActions("music", ["availableSongs"]),
+    async openPick() {
+      let [fileHandle] = await window.showOpenFilePicker();
+      alert(fileHandle);
+    },
   },
 };
 </script>
