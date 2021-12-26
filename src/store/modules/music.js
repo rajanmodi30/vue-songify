@@ -90,9 +90,13 @@ const actions = {
       path: params.path,
       _id: params._id,
     };
+    console.log("path", params);
     commit("updateCurrentSong", {
       name: params.name,
-      path: params.path,
+      path:
+        "offline" in params
+          ? URL.createObjectURL(params.offlineSrc)
+          : `${serverUrl}/${params.path}`,
       _id: params._id,
     });
     commit("addNewSongToCurrentPlaylist", {
